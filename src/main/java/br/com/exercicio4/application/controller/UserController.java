@@ -1,10 +1,13 @@
 package br.com.exercicio4.application.controller;
 
 import br.com.exercicio4.domain.model.User;
+import br.com.exercicio4.domain.model.dto.ResponseDTO;
 import br.com.exercicio4.domain.model.dto.UserCreateDTO;
 import br.com.exercicio4.domain.model.dto.UserUpdateDTO;
 import br.com.exercicio4.domain.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +32,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> list() {
-        return ResponseEntity.ok(service.listAll());
+    public ResponseEntity<ResponseDTO<User>> list(Pageable pageable) {
+        var users = service.listAll(pageable);
+        return ResponseEntity.ok(ResponseDTO.fromPage(users));
     }
 
     @GetMapping("/{id}")

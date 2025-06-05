@@ -6,6 +6,8 @@ import br.com.exercicio4.infra.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class UserService {
         return repository.save(user);
     }
 
-    public List<User> listAll() {
-        return repository.findAll();
+    public Page<User> listAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public User findById(Long id) {
