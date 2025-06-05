@@ -13,33 +13,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome é obrigatório")
     @Column(nullable = false)
     private String name;
 
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Formato de e-mail inválido")
     @Column(unique = true, nullable = false)
     private String email;
 
     protected User() {}
 
-    public User(Long id, String name, String email) {
-        this.id = id;
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public void update(String name, String email) {
-        validate(name, email);
-        this.name = name;
-        this.email = email;
-    }
-
-    private void validate(String name, String email) {
-        if(name == null || name.isBlank()) {
-            throw new ValidationException("Nome é obrigatório");
-        }
-        if (email == null || email.isBlank() || !email.contains("@")) {
-            throw new ValidationException("Email inválido");
-        }
+    public void updateInfo(String name, String email) {
+        if (name != null && !name.isBlank()) this.name = name;
+        if (email != null && !email.isBlank()) this.email = email;
     }
 
     public Long getId() {
